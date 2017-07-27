@@ -41,4 +41,40 @@
         </plugins>
     </build>
     
+    <dependencies>        
+        <dependency>
+            <groupId>dagu</groupId>
+            <artifactId>modbus-control-app-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>dagu</groupId>
+            <artifactId>modbus-control-app-web</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+    
+    <distributionManagement>
+        <repository>
+            <id>internal</id>
+            <url>http://127.0.0.1:8089/repository/internal/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>internal</id>
+            <name>Archiva Managed Internal Repository</name>
+            <url>http://127.0.0.1:8089/repository/internal/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    
 </project>

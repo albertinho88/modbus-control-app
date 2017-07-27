@@ -8,9 +8,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-  <modules>
-    <module>modbus-control-app-ejb</module>
-    <module>modbus-control-app-ear</module>
-    <module>modbus-control-app-web</module>
-  </modules>
+    
+    <name>modbus-control-app</name>
+    <modules>
+      <module>modbus-control-app-ejb</module>
+      <module>modbus-control-app-ear</module>
+      <module>modbus-control-app-web</module>
+    </modules>
 </project>

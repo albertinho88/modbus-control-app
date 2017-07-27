@@ -14,17 +14,32 @@
 
     <name>modbus-control-app-web</name>
 
-    <properties>
-        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+    <properties>        
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
     <dependencies>
         <dependency>
+            <groupId>dagu</groupId>
+            <artifactId>modbus-control-app-ejb</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
+        </dependency>                
+        <dependency>
+            <groupId>dagu</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>dagu</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
         </dependency>
     </dependencies>
 
@@ -37,9 +52,6 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
-                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
                 </configuration>
             </plugin>
             <plugin>
@@ -60,8 +72,7 @@
                         <goals>
                             <goal>copy</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${endorsed.dir}</outputDirectory>
+                        <configuration>                            
                             <silent>true</silent>
                             <artifactItems>
                                 <artifactItem>
@@ -77,5 +88,26 @@
             </plugin>
         </plugins>
     </build>
+    
+    <distributionManagement>
+        <repository>
+            <id>internal</id>
+            <url>http://127.0.0.1:8089/repository/internal/</url>
+        </repository>
+    </distributionManagement>
 
+    <repositories>
+        <repository>
+            <id>internal</id>
+            <name>Archiva Managed Internal Repository</name>
+            <url>http://127.0.0.1:8089/repository/internal/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    
 </project>
