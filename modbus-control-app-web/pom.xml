@@ -41,6 +41,12 @@
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>
         </dependency>
+        <dependency>
+            <groupId>dagu</groupId>
+            <artifactId>jamod</artifactId>
+            <version>LATEST</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>

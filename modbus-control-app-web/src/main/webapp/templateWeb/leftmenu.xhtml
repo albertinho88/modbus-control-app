@@ -1,0 +1,28 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ps="http://primefaces.org/sentinel"    
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+        
+    <p:growl globalOnly="true" sticky="true" id="mensajeMenu" />
+    
+    <div id="contenedorMenu" class="container" style="z-index: 1000">
+        <div id="layout-menubar" class="Unselectable fontRegular content">
+            <div class="layout-menubarinner-box" id="buttonArea">
+                <a href="#" id="layout-menubar-resize" class="BordRad3" title="Esconder Menú"><i class="icon-th-list-2"></i></a>
+                <a href="#" id="layout-menubar-resize2" class="BordRad3" title="Abrir Menú"><i class="icon-menu"></i></a>
+            </div>
+            <h:form styleClass="" prependId="false">
+                <ps:panelMenu id="panel_menu_general">
+                    <p:submenu label="Ajax Menuitems">
+                        <p:menuitem value="Save"  icon="ui-icon-disk" />
+                        <p:menuitem value="Update"   icon="ui-icon-arrowrefresh-1-w" />
+                    </p:submenu>
+                </ps:panelMenu>
+            </h:form>
+        </div>
+    </div>
+    
+</ui:composition>
