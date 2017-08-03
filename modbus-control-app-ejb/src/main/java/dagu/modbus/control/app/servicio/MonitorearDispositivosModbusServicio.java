@@ -45,9 +45,9 @@ public class MonitorearDispositivosModbusServicio implements Serializable{
             
             String[] args = new String[5];
             args[0] = "localhost:502";
-            args[1] = "1";
-            args[2] = "3";
-            args[3] = "4";
+            args[1] = "0";
+            args[2] = "4";
+            args[3] = "3";
             
             //1. Setup the parameters
             if (args.length < 3) {
@@ -74,15 +74,27 @@ public class MonitorearDispositivosModbusServicio implements Serializable{
             
             //2. Open the connection
             con = new TCPMasterConnection(addr);
-            //con.setPort(port);
-            /*con.connect();
+            con.setPort(port);
+            con.connect();
 
             //3. Prepare the request
             req = new ReadInputDiscretesRequest(ref, count);
 
             //4. Prepare the transaction
             trans = new ModbusTCPTransaction(con);
-            trans.setRequest(req);*/
+            trans.setRequest(req);
+            
+            //5. Execute the transaction repeat times
+            int k = 0;
+            do {
+              trans.execute();
+              res = (ReadInputDiscretesResponse) trans.getResponse();
+              System.out.println("Digital Inputs Status=" + res.getDiscretes().toString());
+              k++;
+            } while (k < repeat);
+
+             //6. Close the connection
+             con.close();
             
             Logger.getLogger(MonitorearDispositivosModbusServicio.class.getName()).log(Level.INFO, "testing.....");
             
