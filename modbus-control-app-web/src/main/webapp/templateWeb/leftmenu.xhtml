@@ -7,17 +7,10 @@
      
     <h:form>
         <p:menu>
-            <p:submenu label="Ajax">
-                <p:menuitem value="Save"  icon="ui-icon-disk" />
-                <p:menuitem value="Update"  icon="ui-icon-arrowrefresh-1-w"/>
-            </p:submenu>
-            <p:submenu label="Non-Ajax">
-                <p:menuitem value="Delete"  ajax="false" icon="ui-icon-close"/>
-            </p:submenu>
-            <p:submenu label="Navigations">
-                <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-home"/>
-                <p:menuitem value="Internal" icon="ui-icon-star"/>
-            </p:submenu>
+            <p:submenu label="Menú Principal">
+                <p:menuitem value="Configuraciones" outcome="/pages/configuracion.jsf"  icon="fa fa-cog" />
+                <p:menuitem value="TCP Master" outcome="/pages/prototipo.jsf" icon="ui-icon-arrowrefresh-1-w"/>
+            </p:submenu>            
         </p:menu>
     </h:form>
     

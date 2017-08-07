@@ -34,7 +34,7 @@ public class MonitorearDispositivosModbusServicio implements Serializable{
             TCPMasterConnection con = null; //the connection
             ModbusTCPTransaction trans = null; //the transaction
             ReadInputDiscretesRequest req = null; //the request
-            ReadInputDiscretesResponse res = null; //the response
+            ReadInputDiscretesResponse res = null; //the response           
 
             /* Variables for storing the parameters */
             InetAddress addr = null; //the slave's address

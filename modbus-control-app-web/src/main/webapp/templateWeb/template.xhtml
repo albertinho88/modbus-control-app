@@ -12,33 +12,34 @@
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
         <title>ModBus Control App | 1.0</title> 
-        
-        <h:outputScript name="jquery/dist/jquery.min.js" library="node_modules" />
-        <h:outputScript name="tether/dist/js/tether.min.js" library="node_modules" />
-        <h:outputScript name="bootstrap/dist/js/bootstrap.min.js" library="node_modules" />
-        
+               
         <ui:insert name="head" />
         
     </h:head>
-    <h:body>
+    <h:body >
         
-        <h:outputStylesheet library="node_modules" name="bootstrap/dist/css/bootstrap.min.css"  /> 
-        <h:outputStylesheet library="css" name="style.css"  />
-        
-        <ui:include src="topbar.xhtml" />
-        
-        <div class="container" id="main-container">
-            <div class="row">
-                <div class="col-sm-2">
-                    <ui:include src="leftmenu.xhtml" />
-                </div>
-                <div class="col-sm-10">
-                    <ui:insert name="content">
-                        Template
-                    </ui:insert>
-                </div>
-            </div>
-        </div>                                                
+        <p:layout fullPage="true">
+ 
+            <p:layoutUnit position="north" size="150" resizable="false" closable="false" collapsible="false">
+                <ui:include src="topbar.xhtml" />
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="100" resizable="true" closable="false" collapsible="false">
+                <center><h:outputText value="Copyright 2017." /></center>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="250" resizable="true" closable="false" collapsible="true">
+                <ui:include src="leftmenu.xhtml" />
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <ui:insert name="content">
+                    Template
+                </ui:insert>
+            </p:layoutUnit>
+
+        </p:layout>
+                                 
          
     </h:body>
 </html>

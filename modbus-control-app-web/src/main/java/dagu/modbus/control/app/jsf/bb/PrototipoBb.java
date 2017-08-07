@@ -21,7 +21,15 @@ public class PrototipoBb implements Serializable {
     
     @Getter
     @Setter
-    private String ipAddress;
+    private String direccionIp;
+    
+    @Getter
+    @Setter
+    private String puerto;
+    
+    @Getter
+    @Setter
+    private String codigoFuncion;
     
     @Getter
     @Setter
