@@ -3,21 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dagu.modbus.control.app.jsf.bb;
+package dagu.modbus.control.app.servicio.modelo.dto;
 
 import java.io.Serializable;
-import javax.enterprise.context.Dependent;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  *
- * @author Alberto
+ * @author jlarragam
  */
-@Dependent
-public class PrototipoBb implements Serializable {
-
-    private static final long serialVersionUID = 3119330952319407673L;        
+public class PeticionModbusTcp implements Serializable {
+    
+    private static final long serialVersionUID = -7854148392717815639L;
     
     @Getter
     @Setter
@@ -25,7 +23,7 @@ public class PrototipoBb implements Serializable {
     
     @Getter
     @Setter
-    private String puerto;
+    private int puerto;
     
     @Getter
     @Setter
@@ -33,5 +31,13 @@ public class PrototipoBb implements Serializable {
     
     @Getter
     @Setter
-    private String respuesta;
+    private int referencia;
+    
+    @Getter
+    @Setter
+    private int conteoBits;
+    
+    @Getter
+    @Setter
+    private int conteoPalabras;
 }

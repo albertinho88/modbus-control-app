@@ -7,6 +7,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">  
     <ui:define name="content" >
+        
+        <p:growl globalOnly="true" sticky="true" id="msg" />
+        
         <p:spacer />        
         
         <center>MODBUS Master TCP</center>
@@ -15,15 +18,17 @@
 
         <h:form>
             <p:fieldset legend="TCP Request Data">
-                <h:panelGrid columns="2" >
+                <h:panelGrid columns="3" >
                     <p:outputLabel value="Dirección IP:" />
-                    <p:inputText value="#{prototipoControlador.bb.direccionIp}"/>
+                    <p:inputText id="iptDirIp" value="#{monitorearModbusTcpControlador.bb.direccionIp}" required="true"/>
+                    <p:message for="iptDirIp"/>
 
                     <p:outputLabel value="Puerto:" />
-                    <p:inputText value="#{prototipoControlador.bb.puerto}"/>
+                    <p:inputText id="iptPrto" value="#{monitorearModbusTcpControlador.bb.puerto}" required="true"/>
+                    <p:message for="iptPrto"/>
 
                     <p:outputLabel value="Función:" />
-                    <p:selectOneMenu value="#{prototipoControlador.bb.codigoFuncion}" >
+                    <p:selectOneMenu id="slcFunc" value="#{monitorearModbusTcpControlador.bb.codigoFuncion}" required="true">
                         <f:selectItem itemLabel="Read Coils Request" itemValue="1" />
                         <f:selectItem itemLabel="Read Input Discretes Request" itemValue="2" />
                         <f:selectItem itemLabel="Read Multiple Registers Request" itemValue="3" />
@@ -33,9 +38,27 @@
                         <f:selectItem itemLabel="Write Multiple Coils Request" itemValue="15" />
                         <f:selectItem itemLabel="Write Multiple Register Request" itemValue="16" />
                     </p:selectOneMenu>
+                    <p:message for="slcFunc"/>
+                    
+                    <p:outputLabel value="Referencia:" />
+                    <p:inputText id="iptRef" value="#{monitorearModbusTcpControlador.bb.referencia}"  >
+                        <f:validateDoubleRange minimum="0" maximum="256" />
+                    </p:inputText>
+                    <p:message for="iptRef"/>
+                    
+                    <p:outputLabel value="Número de bits:" />
+                    <p:inputText id="iptNumBits" value="#{monitorearModbusTcpControlador.bb.conteoBits}"/>
+                    <p:message for="iptNumBits"/>
+                    
                 </h:panelGrid>
 
-                <p:commandButton title="Enviar" actionListener="#{prototipoControlador.conectar()}" />
+                <p:commandButton title="Enviar" actionListener="#{monitorearModbusTcpControlador.enviarTrama()}" update="@form #{p:component('msg')}" />
+            </p:fieldset>
+            
+            <p:spacer />
+            
+            <p:fieldset legend="TCP Response">
+                
             </p:fieldset>
         </h:form>        
     </ui:define>
