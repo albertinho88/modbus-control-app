@@ -22,6 +22,7 @@ public class GeneralModbusServicio implements Serializable {
     
     public RespuestaModbusTcp enviarTramaFuncion (String codigoFuncion, int referencia, int numeroBits, int numeroPalabras) {
         RespuestaModbusTcp rsp = null;
+                
         
         return rsp;
     }
