@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dagu.modbus.control.app.servicio.modelo.dto;
+package dagu.modbus.control.app.modelo.dto;
 
 import java.io.Serializable;
 import lombok.Getter;

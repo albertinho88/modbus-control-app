@@ -5,10 +5,12 @@
  */
 package dagu.modbus.control.app.servicio;
 
-import dagu.modbus.control.app.servicio.modelo.dto.RespuestaModbusTcp;
+import dagu.modbus.control.app.enumeraciones.FuncionModbusEnum;
+import dagu.modbus.control.app.modelo.dto.RespuestaModbusTcp;
 import java.io.Serializable;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import net.wimpi.modbus.util.BitVector;
 
 /**
  *
@@ -20,11 +22,23 @@ public class GeneralModbusServicio implements Serializable {
     
     private static final long serialVersionUID = -8980588198701705105L;
     
-    public RespuestaModbusTcp enviarTramaFuncion (String codigoFuncion, int referencia, int numeroBits, int numeroPalabras) {
-        RespuestaModbusTcp rsp = null;
-                
+    public String obtenerRespuestaPorFuncion (RespuestaModbusTcp resp) throws Exception {
+        String respuesta = "";
         
-        return rsp;
+        if (FuncionModbusEnum.READ_COILS.getCodigo().equals(resp.getCodigoFuncion())) {
+            respuesta += "Bit Count: ".concat(String.valueOf(resp.getConteoBits()));
+            respuesta += "\r\n";
+            
+            respuesta += "Data: ".concat(resp.getVectorBit().toString());
+            
+            //for (int i=0; i<=resp.getVectorBit().size(); i++) {
+                
+            //}
+            
+            
+        }
+        
+        return respuesta;
     }
     
 }

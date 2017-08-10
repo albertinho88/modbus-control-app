@@ -5,8 +5,8 @@
  */
 package dagu.modbus.control.app.servicio;
 
-import dagu.modbus.control.app.servicio.modelo.dto.PeticionModbusTcp;
-import dagu.modbus.control.app.servicio.modelo.dto.RespuestaModbusTcp;
+import dagu.modbus.control.app.modelo.dto.PeticionModbusTcp;
+import dagu.modbus.control.app.modelo.dto.RespuestaModbusTcp;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -16,6 +16,12 @@ import lombok.Getter;
 import lombok.Setter;
 import net.wimpi.modbus.Modbus;
 import net.wimpi.modbus.io.ModbusTCPTransaction;
+import net.wimpi.modbus.msg.ReadCoilsRequest;
+import net.wimpi.modbus.msg.ReadCoilsResponse;
+import net.wimpi.modbus.msg.ReadInputDiscretesRequest;
+import net.wimpi.modbus.msg.ReadInputDiscretesResponse;
+import net.wimpi.modbus.msg.ReadMultipleRegistersRequest;
+import net.wimpi.modbus.msg.ReadMultipleRegistersResponse;
 import net.wimpi.modbus.net.TCPMasterConnection;
 
 /**
@@ -41,7 +47,8 @@ public class TcpModbusServicio implements Serializable {
         
         if (conectar(peticion.getDireccionIp(), peticion.getPuerto())) {
             
-            
+            resp = enviarTramaPorFuncion(peticion);
+            resp.setCodigoFuncion(peticion.getCodigoFuncion());
             
             desconectar();            
         }
@@ -76,7 +83,80 @@ public class TcpModbusServicio implements Serializable {
         getCon().close();
     }
     
+    private RespuestaModbusTcp enviarTramaPorFuncion(PeticionModbusTcp peticion) throws Exception {
+        
+        RespuestaModbusTcp rsp = null;
+        
+        switch (peticion.getCodigoFuncion()) {
+            case "1": rsp = readCoilsRequest(peticion); break;
+            case "2": rsp = readInputDiscretesRequest(peticion); break;
+            case "3": rsp = readMultipleRegistersRequest(peticion); break;
+            case "4": rsp = readInputRegistersRequest(peticion); break;
+            case "5": rsp = writeCoilRequest(peticion); break;
+            case "6": rsp = writeSingleRegisterRequest(peticion); break;
+            case "15": rsp = writeMultipleCoilsRequest(peticion); break;
+            case "16": rsp = writeMultipleRegisterRequest(peticion); break;
+            default: break;
+        }
+        
+        return rsp;       
+    }
     
+    private RespuestaModbusTcp readCoilsRequest(PeticionModbusTcp peticion) throws Exception {
+        ReadCoilsRequest req = null;
+        ReadCoilsResponse res = null;
+                  
+        //3. Prepare the request
+        req = new ReadCoilsRequest(peticion.getReferencia(), peticion.getConteoBits());
+
+        //4. Prepare the transaction
+        setTrans(new ModbusTCPTransaction(getCon()));        
+        getTrans().setRequest(req);
+        
+        getTrans().execute();
+        res = (ReadCoilsResponse) getTrans().getResponse();
+        
+        return new RespuestaModbusTcp(res.getBitCount(), res.getCoils());                
+    }
     
+    private RespuestaModbusTcp readInputDiscretesRequest(PeticionModbusTcp peticion) throws Exception {
+        ReadInputDiscretesRequest req = null; //the request
+        ReadInputDiscretesResponse res = null; //the response
+        
+        req = new ReadInputDiscretesRequest(peticion.getReferencia(), peticion.getConteoBits());
+        
+        //4. Prepare the transaction
+        setTrans(new ModbusTCPTransaction(getCon()));        
+        getTrans().setRequest(req);
+        
+        getTrans().execute();
+        res = (ReadInputDiscretesResponse) getTrans().getResponse();
+        
+        return new RespuestaModbusTcp(res.getBitCount(), res.getDiscretes());
+    }
+    
+    private RespuestaModbusTcp readMultipleRegistersRequest(PeticionModbusTcp peticion) throws Exception {
+        ReadMultipleRegistersRequest req = null;
+        ReadMultipleRegistersResponse res = null;
+        
+        req = new ReadMultipleRegistersRequest(peticion.getConteoBits(), peticion.getConteoPalabras());
+        
+        return null;
+    }
+    private RespuestaModbusTcp readInputRegistersRequest(PeticionModbusTcp peticion) throws Exception {
+        return null;
+    }
+    private RespuestaModbusTcp writeCoilRequest(PeticionModbusTcp peticion) throws Exception {
+        return null;
+    }
+    private RespuestaModbusTcp writeSingleRegisterRequest(PeticionModbusTcp peticion) throws Exception {
+        return null;
+    }
+    private RespuestaModbusTcp writeMultipleCoilsRequest(PeticionModbusTcp peticion) throws Exception {
+        return null;
+    }
+    private RespuestaModbusTcp writeMultipleRegisterRequest(PeticionModbusTcp peticion) throws Exception {
+        return null;
+    }
     
 }

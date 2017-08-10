@@ -7,17 +7,15 @@ package dagu.modbus.control.app.jsf.controlador;
 
 import dagu.modbus.control.app.jsf.bb.MonitorearModbusTcpBb;
 import dagu.modbus.control.app.jsf.util.UtilitarioJsf;
-import dagu.modbus.control.app.servicio.MonitorearDispositivosModbusServicio;
 import dagu.modbus.control.app.servicio.TcpModbusServicio;
-import dagu.modbus.control.app.servicio.modelo.dto.PeticionModbusTcp;
-import dagu.modbus.control.app.servicio.modelo.dto.RespuestaModbusTcp;
+import dagu.modbus.control.app.modelo.dto.PeticionModbusTcp;
+import dagu.modbus.control.app.modelo.dto.RespuestaModbusTcp;
+import dagu.modbus.control.app.servicio.GeneralModbusServicio;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,6 +39,10 @@ public class MonitorearModbusTcpControlador extends UtilitarioJsf implements Ser
     @Getter
     private TcpModbusServicio serv;
     
+    @EJB
+    @Getter
+    private GeneralModbusServicio generalModbusServicio;
+    
     @PostConstruct
     public void init() {
         getBb().inicializar();
@@ -56,6 +58,8 @@ public class MonitorearModbusTcpControlador extends UtilitarioJsf implements Ser
         
         try {
             RespuestaModbusTcp resp = getServ().ejecutarFuncion(peticion);
+            
+            getBb().setRespuesta(getGeneralModbusServicio().obtenerRespuestaPorFuncion(resp));
             
             ponerMensajeInfo("Conexión exitosa!");
             

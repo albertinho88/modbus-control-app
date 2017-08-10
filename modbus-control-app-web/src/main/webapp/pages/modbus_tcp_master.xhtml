@@ -29,14 +29,14 @@
 
                     <p:outputLabel value="Función:" />
                     <p:selectOneMenu id="slcFunc" value="#{monitorearModbusTcpControlador.bb.codigoFuncion}" required="true">
-                        <f:selectItem itemLabel="Read Coils Request" itemValue="1" />
-                        <f:selectItem itemLabel="Read Input Discretes Request" itemValue="2" />
-                        <f:selectItem itemLabel="Read Multiple Registers Request" itemValue="3" />
-                        <f:selectItem itemLabel="Read Input Registers Request" itemValue="4" />
-                        <f:selectItem itemLabel="Write Coil Request" itemValue="5" />
-                        <f:selectItem itemLabel="Write Single Register Request" itemValue="6" />
-                        <f:selectItem itemLabel="Write Multiple Coils Request" itemValue="15" />
-                        <f:selectItem itemLabel="Write Multiple Register Request" itemValue="16" />
+                        <f:selectItem itemLabel="Read Coils" itemValue="1" />
+                        <f:selectItem itemLabel="Read Input Discretes" itemValue="2" />
+                        <f:selectItem itemLabel="Read Multiple Registers" itemValue="3" />
+                        <f:selectItem itemLabel="Read Input Registers" itemValue="4" />
+                        <f:selectItem itemLabel="Write Single Coil" itemValue="5" />
+                        <f:selectItem itemLabel="Write Single Register" itemValue="6" />
+                        <f:selectItem itemLabel="Write Multiple Coils" itemValue="15" />
+                        <f:selectItem itemLabel="Write Multiple Register" itemValue="16" />
                     </p:selectOneMenu>
                     <p:message for="slcFunc"/>
                     
@@ -52,13 +52,13 @@
                     
                 </h:panelGrid>
 
-                <p:commandButton title="Enviar" actionListener="#{monitorearModbusTcpControlador.enviarTrama()}" update="@form #{p:component('msg')}" />
+                <p:commandButton title="Enviar" actionListener="#{monitorearModbusTcpControlador.enviarTrama()}" update="@form #{p:component('msg')} #{p:component('iptResp')}" />
             </p:fieldset>
             
             <p:spacer />
             
             <p:fieldset legend="TCP Response">
-                
+                <p:inputTextarea id="iptResp" value="#{monitorearModbusTcpControlador.bb.respuesta}" />
             </p:fieldset>
         </h:form>        
     </ui:define>
