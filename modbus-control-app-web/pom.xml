@@ -30,12 +30,17 @@
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
-        </dependency>                
+        </dependency>                       
         <dependency>
             <groupId>dagu</groupId>
             <artifactId>primefaces</artifactId>
             <version>6.1</version>
         </dependency>
+        <dependency>
+            <groupId>dagu</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>6.1.1</version>
+        </dependency> 
         <dependency>
             <groupId>dagu</groupId>
             <artifactId>lombok</artifactId>
@@ -46,6 +51,11 @@
             <artifactId>jamod</artifactId>
             <version>LATEST</version>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>dagu</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
         </dependency>
     </dependencies>
 

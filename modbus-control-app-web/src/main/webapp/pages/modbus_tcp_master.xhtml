@@ -5,7 +5,8 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">  
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" >  
     <ui:define name="content" >
         
         <p:growl globalOnly="true" sticky="true" id="msg" />
@@ -58,7 +59,8 @@
             <p:spacer />
             
             <p:fieldset legend="TCP Response">
-                <p:inputTextarea id="iptResp" value="#{monitorearModbusTcpControlador.bb.respuesta}" />
+                <p:inputTextarea id="iptResp" value="#{monitorearModbusTcpControlador.bb.respuesta}" />                                
+                
             </p:fieldset>
         </h:form>        
     </ui:define>

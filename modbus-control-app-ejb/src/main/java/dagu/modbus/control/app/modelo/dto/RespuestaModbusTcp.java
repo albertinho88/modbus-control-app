@@ -34,6 +34,10 @@ public class RespuestaModbusTcp implements Serializable {
     
     @Getter
     @Setter
+    private int conteoBytes;
+    
+    @Getter
+    @Setter
     private BitVector vectorBit;
     
     @Getter

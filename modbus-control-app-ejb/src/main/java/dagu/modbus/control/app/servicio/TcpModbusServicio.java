@@ -20,8 +20,18 @@ import net.wimpi.modbus.msg.ReadCoilsRequest;
 import net.wimpi.modbus.msg.ReadCoilsResponse;
 import net.wimpi.modbus.msg.ReadInputDiscretesRequest;
 import net.wimpi.modbus.msg.ReadInputDiscretesResponse;
+import net.wimpi.modbus.msg.ReadInputRegistersRequest;
+import net.wimpi.modbus.msg.ReadInputRegistersResponse;
 import net.wimpi.modbus.msg.ReadMultipleRegistersRequest;
 import net.wimpi.modbus.msg.ReadMultipleRegistersResponse;
+import net.wimpi.modbus.msg.WriteCoilRequest;
+import net.wimpi.modbus.msg.WriteCoilResponse;
+import net.wimpi.modbus.msg.WriteMultipleCoilsRequest;
+import net.wimpi.modbus.msg.WriteMultipleCoilsResponse;
+import net.wimpi.modbus.msg.WriteMultipleRegistersRequest;
+import net.wimpi.modbus.msg.WriteMultipleRegistersResponse;
+import net.wimpi.modbus.msg.WriteSingleRegisterRequest;
+import net.wimpi.modbus.msg.WriteSingleRegisterResponse;
 import net.wimpi.modbus.net.TCPMasterConnection;
 
 /**
@@ -141,21 +151,43 @@ public class TcpModbusServicio implements Serializable {
         
         req = new ReadMultipleRegistersRequest(peticion.getConteoBits(), peticion.getConteoPalabras());
         
-        return null;
+        //4. Prepare the transaction
+        setTrans(new ModbusTCPTransaction(getCon()));        
+        getTrans().setRequest(req);
+        
+        getTrans().execute();
+        res = (ReadMultipleRegistersResponse) getTrans().getResponse();
+        
+        return new ;
     }
     private RespuestaModbusTcp readInputRegistersRequest(PeticionModbusTcp peticion) throws Exception {
+        ReadInputRegistersRequest req = null;
+        ReadInputRegistersResponse res = null;
+        
         return null;
     }
     private RespuestaModbusTcp writeCoilRequest(PeticionModbusTcp peticion) throws Exception {
+        WriteCoilRequest req = null;
+        WriteCoilResponse res = null;
+        
         return null;
     }
     private RespuestaModbusTcp writeSingleRegisterRequest(PeticionModbusTcp peticion) throws Exception {
+        WriteSingleRegisterRequest req = null;
+        WriteSingleRegisterResponse res = null;
+        
         return null;
     }
     private RespuestaModbusTcp writeMultipleCoilsRequest(PeticionModbusTcp peticion) throws Exception {
+        WriteMultipleCoilsRequest req = null;
+        WriteMultipleCoilsResponse res = null;
+        
         return null;
     }
     private RespuestaModbusTcp writeMultipleRegisterRequest(PeticionModbusTcp peticion) throws Exception {
+        WriteMultipleRegistersRequest req = null;
+        WriteMultipleRegistersResponse res = null;
+        
         return null;
     }
     

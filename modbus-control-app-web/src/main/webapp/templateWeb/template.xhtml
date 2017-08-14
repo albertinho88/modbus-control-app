@@ -18,17 +18,19 @@
     </h:head>
     <h:body >                
         
-        <p:layout fullPage="true">
+        <h:outputStylesheet name="css/style.css"  />
+        
+        <p:layout fullPage="true" id="principal-layout">
  
-            <p:layoutUnit position="north" size="150" resizable="false" closable="false" collapsible="false">
+            <p:layoutUnit position="north" size="100" resizable="false" closable="false" collapsible="false" id="header-layout-unit" >
                 <ui:include src="topbar.xhtml" />
             </p:layoutUnit>
 
-            <p:layoutUnit position="south" size="100" resizable="true" closable="false" collapsible="false">
+            <p:layoutUnit position="south" size="100" resizable="true" closable="false" collapsible="false" id="bottom-layout-unit">
                 <center><h:outputText value="Copyright 2017." /></center>
             </p:layoutUnit>
 
-            <p:layoutUnit position="west" size="250" resizable="true" closable="false" collapsible="true">
+            <p:layoutUnit position="west" size="250" resizable="true" closable="false" collapsible="true" id="left-layout-unit">
                 <ui:include src="leftmenu.xhtml" />
             </p:layoutUnit>
 

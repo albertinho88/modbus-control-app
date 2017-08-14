@@ -67,6 +67,10 @@ public class MonitorearModbusTcpControlador extends UtilitarioJsf implements Ser
             Logger.getLogger(MonitorearModbusTcpControlador.class.getName()).log(Level.INFO, "Error! " + e.getMessage());
             ponerMensajeError(e.getMessage());
         }
-    }        
+    }
+    
+    public void onTimeout(){  
+        ponerMensajeError("BOOM");        
+    }  
     
 }
