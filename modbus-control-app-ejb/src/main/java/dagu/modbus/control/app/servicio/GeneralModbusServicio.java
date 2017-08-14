@@ -29,7 +29,8 @@ public class GeneralModbusServicio implements Serializable {
             respuesta += "Bit Count: ".concat(String.valueOf(resp.getConteoBits()));
             respuesta += "\r\n";
             
-            respuesta += "Data: ".concat(resp.getVectorBit().toString());
+            respuesta += "Data: ".concat(resp.getVectorBit().toString());            
+            respuesta += "\r\n \r\n";
             
             //for (int i=0; i<=resp.getVectorBit().size(); i++) {
                 
