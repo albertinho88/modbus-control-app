@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui" >
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions" >
     <h:head>
         <f:facet name="first">
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -35,14 +36,13 @@
                 <ui:include src="leftmenu.xhtml" />
             </p:layoutUnit>
 
-            <p:layoutUnit position="center">
+            <p:layoutUnit position="center" id="center-layout-unit">
                 <ui:insert name="content">
                     Template
                 </ui:insert>
             </p:layoutUnit>
 
-        </p:layout>
-                                 
+        </p:layout>                                                 
          
     </h:body>
 </html>

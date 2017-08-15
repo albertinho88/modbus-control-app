@@ -7,10 +7,16 @@
      
     <h:form>
         <p:menu styleClass="menu-principal">
-            <p:submenu label="Menú Principal">
-                <p:menuitem value="Configuraciones" outcome="/pages/configuracion.jsf"  icon="fa fa-cog" />
+            <p:submenu label="Configuración">
+                <p:menuitem value="Parámetros" outcome="/pages/configuracion.jsf"  icon="fa fa-cog" />
+            </p:submenu>
+            <p:submenu label="ModBus">                
                 <p:menuitem value="TCP Master" outcome="/pages/modbus_tcp_master.jsf" icon="fa fa-code-fork"/>
+                <p:menuitem value="Serial Master" outcome="/pages/modbus_serial_master.jsf" icon="fa fa-code-fork"/>                
             </p:submenu>            
+            <p:submenu label="Ayuda">
+                <p:menuitem value="Acerca De" outcome="/pages/about.jsf" icon="fa fa-code-fork"/>
+            </p:submenu>
         </p:menu>
     </h:form>
     

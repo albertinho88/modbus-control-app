@@ -5,20 +5,21 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">  
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" >  
     <ui:define name="content" >
-            
-        <p:spacer />  
-        
-        <center><h2>Configuraciones</h2></center>        
-        
-        <p:spacer />
-        
         <h:form>
             
-            
-        </h:form>
+        <p:growl globalOnly="true" sticky="true" id="msg" />
+        <p:growl autoUpdate="true" />
                 
+        <pe:timer  
+            timeout="5"  
+            singleRun="false"  
+            listener="#{monitorearModbusTcpControlador.enviarTrama()}"
+            update="@form #{p:component('msg')}"
+             />
+        </h:form>
+
     </ui:define>
 </ui:composition>
-

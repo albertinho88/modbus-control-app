@@ -9,12 +9,8 @@ import dagu.modbus.control.app.modelo.dto.PeticionModbusTcp;
 import dagu.modbus.control.app.modelo.dto.RespuestaModbusTcp;
 import java.io.Serializable;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import lombok.Getter;
-import lombok.Setter;
-import net.wimpi.modbus.Modbus;
 import net.wimpi.modbus.io.ModbusTCPTransaction;
 import net.wimpi.modbus.msg.ReadCoilsRequest;
 import net.wimpi.modbus.msg.ReadCoilsResponse;
@@ -33,6 +29,7 @@ import net.wimpi.modbus.msg.WriteMultipleRegistersResponse;
 import net.wimpi.modbus.msg.WriteSingleRegisterRequest;
 import net.wimpi.modbus.msg.WriteSingleRegisterResponse;
 import net.wimpi.modbus.net.TCPMasterConnection;
+import net.wimpi.modbus.procimg.SimpleRegister;
 
 /**
  *
@@ -42,33 +39,21 @@ import net.wimpi.modbus.net.TCPMasterConnection;
 @Stateless
 public class TcpModbusServicio implements Serializable {
 
-    private static final long serialVersionUID = -3390713346240429910L;
-       
-    @Getter
-    @Setter
-    private TCPMasterConnection con = null; //the connection
+    private static final long serialVersionUID = -3390713346240429910L;                   
     
-    @Getter
-    @Setter
-    private ModbusTCPTransaction trans = null; //the transaction
-    
-    public RespuestaModbusTcp ejecutarFuncion(PeticionModbusTcp peticion) throws Exception {
-        RespuestaModbusTcp resp = null;
+    public RespuestaModbusTcp ejecutarFuncion(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
+        RespuestaModbusTcp resp = null;               
         
-        if (conectar(peticion.getDireccionIp(), peticion.getPuerto())) {
-            
-            resp = enviarTramaPorFuncion(peticion);
-            resp.setCodigoFuncion(peticion.getCodigoFuncion());
-            
-            desconectar();            
+        if (con != null) {            
+            resp = enviarTramaPorFuncion(peticion, con);
+            resp.setCodigoFuncion(peticion.getCodigoFuncion());                                    
         }
                         
         return resp;
     }
     
-    public boolean conectar (String direccionIp, int puerto) throws Exception{                
-        
-        boolean rsp = false;
+    public TCPMasterConnection conectar (String direccionIp, int puerto) throws Exception{                
+        TCPMasterConnection con = null; //the connection        
         
         try {
             InetAddress addr = InetAddress.getByName(direccionIp);
@@ -76,117 +61,174 @@ public class TcpModbusServicio implements Serializable {
             int port = puerto;
 
             //2. Open the connection
-            setCon(new TCPMasterConnection(addr));
-            getCon().setPort(port);
-            getCon().connect();
-            rsp = true;
-        } catch (Exception e) {
-            throw new Exception("Error al establecer conexión mediane TCP. " + e.getMessage());
+            con = new TCPMasterConnection(addr);
+            con.setPort(port);
+            con.connect();
+            
+        } catch (Exception e) {            
+            throw new Exception("Error al establecer conexión mediane TCP. " + e.getMessage());            
         }
         
-        return rsp;
+        return con;
         
     }
     
-    public void desconectar() {
+    public void desconectar(TCPMasterConnection con) {
         //6. Close the connection
-        getCon().close();
+        con.close();
     }
     
-    private RespuestaModbusTcp enviarTramaPorFuncion(PeticionModbusTcp peticion) throws Exception {
+    public RespuestaModbusTcp enviarTramaPorFuncion(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
         
         RespuestaModbusTcp rsp = null;
         
         switch (peticion.getCodigoFuncion()) {
-            case "1": rsp = readCoilsRequest(peticion); break;
-            case "2": rsp = readInputDiscretesRequest(peticion); break;
-            case "3": rsp = readMultipleRegistersRequest(peticion); break;
-            case "4": rsp = readInputRegistersRequest(peticion); break;
-            case "5": rsp = writeCoilRequest(peticion); break;
-            case "6": rsp = writeSingleRegisterRequest(peticion); break;
-            case "15": rsp = writeMultipleCoilsRequest(peticion); break;
-            case "16": rsp = writeMultipleRegisterRequest(peticion); break;
+            case "1": rsp = readCoilsRequest(peticion, con); break;
+            case "2": rsp = readInputDiscretesRequest(peticion, con); break;
+            case "3": rsp = readMultipleRegistersRequest(peticion, con); break;
+            case "4": rsp = readInputRegistersRequest(peticion, con); break;
+            case "5": rsp = writeCoilRequest(peticion, con); break;
+            case "6": rsp = writeSingleRegisterRequest(peticion, con); break;
+            case "15": rsp = writeMultipleCoilsRequest(peticion, con); break;
+            case "16": rsp = writeMultipleRegisterRequest(peticion, con); break;
             default: break;
         }
         
         return rsp;       
     }
     
-    private RespuestaModbusTcp readCoilsRequest(PeticionModbusTcp peticion) throws Exception {
-        ReadCoilsRequest req = null;
-        ReadCoilsResponse res = null;
+    private RespuestaModbusTcp readCoilsRequest(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
+        ReadCoilsRequest req;
+        ReadCoilsResponse res;
+        ModbusTCPTransaction trans; //the transaction
                   
         //3. Prepare the request
         req = new ReadCoilsRequest(peticion.getReferencia(), peticion.getConteoBits());
 
         //4. Prepare the transaction
-        setTrans(new ModbusTCPTransaction(getCon()));        
-        getTrans().setRequest(req);
+        trans = new ModbusTCPTransaction(con);        
+        trans.setRequest(req);
         
-        getTrans().execute();
-        res = (ReadCoilsResponse) getTrans().getResponse();
+        trans.execute();
+        res = (ReadCoilsResponse) trans.getResponse();
         
         return new RespuestaModbusTcp(res.getBitCount(), res.getCoils());                
     }
     
-    private RespuestaModbusTcp readInputDiscretesRequest(PeticionModbusTcp peticion) throws Exception {
-        ReadInputDiscretesRequest req = null; //the request
-        ReadInputDiscretesResponse res = null; //the response
+    private RespuestaModbusTcp readInputDiscretesRequest(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
+        ReadInputDiscretesRequest req; //the request
+        ReadInputDiscretesResponse res; //the response
+        ModbusTCPTransaction trans; //the transaction
         
         req = new ReadInputDiscretesRequest(peticion.getReferencia(), peticion.getConteoBits());
         
         //4. Prepare the transaction
-        setTrans(new ModbusTCPTransaction(getCon()));        
-        getTrans().setRequest(req);
+        trans = new ModbusTCPTransaction(con);        
+        trans.setRequest(req);
         
-        getTrans().execute();
-        res = (ReadInputDiscretesResponse) getTrans().getResponse();
+        trans.execute();
+        res = (ReadInputDiscretesResponse) trans.getResponse();
         
         return new RespuestaModbusTcp(res.getBitCount(), res.getDiscretes());
     }
     
-    private RespuestaModbusTcp readMultipleRegistersRequest(PeticionModbusTcp peticion) throws Exception {
-        ReadMultipleRegistersRequest req = null;
-        ReadMultipleRegistersResponse res = null;
+    private RespuestaModbusTcp readMultipleRegistersRequest(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
+        ReadMultipleRegistersRequest req;
+        ReadMultipleRegistersResponse res;
+        ModbusTCPTransaction trans; //the transaction
         
-        req = new ReadMultipleRegistersRequest(peticion.getConteoBits(), peticion.getConteoPalabras());
+        req = new ReadMultipleRegistersRequest(peticion.getReferencia(), peticion.getConteoPalabras());
         
         //4. Prepare the transaction
-        setTrans(new ModbusTCPTransaction(getCon()));        
-        getTrans().setRequest(req);
+        trans = new ModbusTCPTransaction(con);        
+        trans.setRequest(req);
         
-        getTrans().execute();
-        res = (ReadMultipleRegistersResponse) getTrans().getResponse();
+        trans.execute();
+        res = (ReadMultipleRegistersResponse) trans.getResponse();
         
-        return null;
+        return new RespuestaModbusTcp(res.getByteCount(), res.getRegisters());
     }
-    private RespuestaModbusTcp readInputRegistersRequest(PeticionModbusTcp peticion) throws Exception {
-        ReadInputRegistersRequest req = null;
-        ReadInputRegistersResponse res = null;
+    private RespuestaModbusTcp readInputRegistersRequest(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
+        ReadInputRegistersRequest req;
+        ReadInputRegistersResponse res;
+        ModbusTCPTransaction trans; //the transaction
         
-        return null;
-    }
-    private RespuestaModbusTcp writeCoilRequest(PeticionModbusTcp peticion) throws Exception {
-        WriteCoilRequest req = null;
-        WriteCoilResponse res = null;
+        req = new ReadInputRegistersRequest(peticion.getReferencia(), peticion.getConteoPalabras());
         
-        return null;
-    }
-    private RespuestaModbusTcp writeSingleRegisterRequest(PeticionModbusTcp peticion) throws Exception {
-        WriteSingleRegisterRequest req = null;
-        WriteSingleRegisterResponse res = null;
+         //4. Prepare the transaction
+        trans = new ModbusTCPTransaction(con);        
+        trans.setRequest(req);
         
-        return null;
-    }
-    private RespuestaModbusTcp writeMultipleCoilsRequest(PeticionModbusTcp peticion) throws Exception {
-        WriteMultipleCoilsRequest req = null;
-        WriteMultipleCoilsResponse res = null;
+        trans.execute();
+        res = (ReadInputRegistersResponse) trans.getResponse();                
         
-        return null;
+        return new RespuestaModbusTcp(res.getByteCount(), res.getRegisters());
     }
-    private RespuestaModbusTcp writeMultipleRegisterRequest(PeticionModbusTcp peticion) throws Exception {
-        WriteMultipleRegistersRequest req = null;
-        WriteMultipleRegistersResponse res = null;
+    private RespuestaModbusTcp writeCoilRequest(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
+        WriteCoilRequest req;
+        WriteCoilResponse res;
+        ModbusTCPTransaction trans; //the transaction
+        
+        req = new WriteCoilRequest(peticion.getReferencia(), peticion.isCoil());
+        
+        //4. Prepare the transaction
+        trans = new ModbusTCPTransaction(con);        
+        trans.setRequest(req);
+        
+        trans.execute();
+        res = (WriteCoilResponse) trans.getResponse();
+                
+        return new RespuestaModbusTcp(res.getReference(), res.getCoil());
+    }
+    private RespuestaModbusTcp writeSingleRegisterRequest(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
+        WriteSingleRegisterRequest req;
+        WriteSingleRegisterResponse res;
+        ModbusTCPTransaction trans; //the transaction
+        
+        
+        req = new WriteSingleRegisterRequest(peticion.getReferencia(), new SimpleRegister(peticion.getValorRegistro()));
+        
+        //4. Prepare the transaction
+        trans = new ModbusTCPTransaction(con);        
+        trans.setRequest(req);
+        
+        trans.execute();
+        res = (WriteSingleRegisterResponse) trans.getResponse();
+
+        RespuestaModbusTcp rs = new RespuestaModbusTcp();
+        rs.setReferencia(res.getReference());
+        rs.setValorRegistro(res.getRegisterValue());
+        
+        return rs;
+    }
+    private RespuestaModbusTcp writeMultipleCoilsRequest(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
+        WriteMultipleCoilsRequest req;
+        WriteMultipleCoilsResponse res;
+        ModbusTCPTransaction trans; //the transaction
+        
+        req = new WriteMultipleCoilsRequest(peticion.getReferencia(), peticion.getConteoBits());
+        
+        //4. Prepare the transaction
+        trans = new ModbusTCPTransaction(con);        
+        trans.setRequest(req);
+        
+        trans.execute();
+        
+        res = (WriteMultipleCoilsResponse) trans.getResponse();
+        
+        RespuestaModbusTcp rs = new RespuestaModbusTcp();
+        rs.setReferencia(res.getReference());
+        rs.setConteoBits(res.getBitCount());
+        
+        return rs;
+    }
+    private RespuestaModbusTcp writeMultipleRegisterRequest(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
+        WriteMultipleRegistersRequest req;
+        WriteMultipleRegistersResponse res;
+        ModbusTCPTransaction trans; //the transaction
+        
+        
+        //req = new WriteMultipleRegistersRequest(peticion.getReferencia(), )
         
         return null;
     }

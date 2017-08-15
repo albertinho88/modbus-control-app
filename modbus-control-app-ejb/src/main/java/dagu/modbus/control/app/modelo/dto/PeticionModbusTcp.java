@@ -39,5 +39,17 @@ public class PeticionModbusTcp implements Serializable {
     
     @Getter
     @Setter
+    private int conteoBytes;
+    
+    @Getter
+    @Setter
     private int conteoPalabras;
+    
+    @Getter
+    @Setter
+    private boolean coil;
+    
+    @Getter
+    @Setter
+    private int valorRegistro;
 }

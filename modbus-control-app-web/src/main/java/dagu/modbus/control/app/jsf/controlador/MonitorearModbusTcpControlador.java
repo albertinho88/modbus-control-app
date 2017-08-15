@@ -20,6 +20,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.Getter;
+import net.wimpi.modbus.net.TCPMasterConnection;
 
 /**
  *
@@ -37,7 +38,7 @@ public class MonitorearModbusTcpControlador extends UtilitarioJsf implements Ser
     
     @EJB
     @Getter
-    private TcpModbusServicio serv;
+    private TcpModbusServicio tcpModbusServicio;
     
     @EJB
     @Getter
@@ -49,19 +50,21 @@ public class MonitorearModbusTcpControlador extends UtilitarioJsf implements Ser
     }
     
     public void enviarTrama() {
+        TCPMasterConnection con;
+        
         PeticionModbusTcp peticion = new PeticionModbusTcp();
         peticion.setDireccionIp(getBb().getDireccionIp());
         peticion.setPuerto(Integer.parseInt(getBb().getPuerto()));
         peticion.setCodigoFuncion(getBb().getCodigoFuncion());
         peticion.setReferencia(Integer.parseInt(getBb().getReferencia()));
         peticion.setConteoBits(Integer.parseInt(getBb().getConteoBits()));
-        
+                
         try {
-            RespuestaModbusTcp resp = getServ().ejecutarFuncion(peticion);
             
-            getBb().setRespuesta(getGeneralModbusServicio().obtenerRespuestaPorFuncion(resp));
-            
-            ponerMensajeInfo("Conexión exitosa!");
+            con = getTcpModbusServicio().conectar(peticion.getDireccionIp(), peticion.getPuerto());
+            RespuestaModbusTcp resp = getTcpModbusServicio().ejecutarFuncion(peticion, con);
+            getTcpModbusServicio().desconectar(con);            
+            getBb().setRespuesta(getGeneralModbusServicio().obtenerRespuestaPorFuncion(resp));                        
             
         } catch(Exception e) {
             Logger.getLogger(MonitorearModbusTcpControlador.class.getName()).log(Level.INFO, "Error! " + e.getMessage());

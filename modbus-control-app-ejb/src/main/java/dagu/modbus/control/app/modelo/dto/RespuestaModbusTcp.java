@@ -48,9 +48,35 @@ public class RespuestaModbusTcp implements Serializable {
     @Setter
     private Register[] registros;
     
+    @Getter
+    @Setter
+    private boolean mCoil;
+    
+    @Getter
+    @Setter
+    private int valorRegistro;
+    
+    public RespuestaModbusTcp () {
+        
+    }
+    
     public RespuestaModbusTcp (int conteoBits, BitVector vectorBit) {        
         setConteoBits(conteoBits);
         setVectorBit(vectorBit);
     }
     
+    public RespuestaModbusTcp (int conteoBytes, Register[] registros) {
+        setConteoBytes(conteoBytes);
+        setRegistros(registros);
+    }
+    
+    public RespuestaModbusTcp (int byteCount, InputRegister[] registrosEntrada) {
+        setConteoBytes(conteoBytes);
+        setRegistrosEntrada(registrosEntrada);
+    }
+    
+    public RespuestaModbusTcp (int referencia, boolean mCoil) {
+        setReferencia(referencia);
+        setMCoil(mCoil);
+    }
 }

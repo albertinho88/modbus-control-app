@@ -1,3 +1,110 @@
+/* FONT-FACE*/
+@font-face {
+    font-family: 'titillium_webregular';
+    src: url("#{resource['fonts/titilliumweb-regular-webfont.eot']}");
+    src: url("#{resource['fonts/titilliumweb-regular-webfont.eot']}#iefix") format('embedded-opentype'),
+        url("#{resource['fonts/titilliumweb-regular-webfont.woff']}") format('woff'),
+        url("#{resource['fonts/titilliumweb-regular-webfont.ttf']}") format('truetype'),
+        url("#{resource['fonts/titilliumweb-regular-webfont.svg']}#titillium_webregular") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'titillium_websemibold';
+    src: url("#{resource['fonts/titilliumweb-semibold-webfont.eot']}");
+    src: url("#{resource['fonts/titilliumweb-semibold-webfont.eot']}#iefix") format('embedded-opentype'),
+        url("#{resource['fonts/titilliumweb-semibold-webfont.woff']}") format('woff'),
+        url("#{resource['fonts/titilliumweb-semibold-webfont.ttf']}") format('truetype'),
+        url("#{resource['fonts/titilliumweb-semibold-webfont.svg']}#titillium_websemibold") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'titillium_webbold';
+    src: url("#{resource['fonts/titilliumweb-bold-webfont.eot']}");
+    src: url("#{resource['fonts/titilliumweb-bold-webfont.eot']}#iefix") format('embedded-opentype'),
+        url("#{resource['fonts/titilliumweb-bold-webfont.woff']}") format('woff'),
+        url("#{resource['fonts/titilliumweb-bold-webfont.ttf']}") format('truetype'),
+        url("#{resource['fonts/titilliumweb-bold-webfont.svg']}#titillium_webbold") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'titillium_webbold_italic';
+    src: url("#{resource['fonts/titilliumweb-bolditalic-webfont.eot']}");
+    src: url("#{resource['fonts/titilliumweb-bolditalic-webfont.eot']}#iefix") format('embedded-opentype'),
+        url("#{resource['fonts/titilliumweb-bolditalic-webfont.woff']}") format('woff'),
+        url("#{resource['fonts/titilliumweb-bolditalic-webfont.ttf']}") format('truetype'),
+        url("#{resource['fonts/titilliumweb-bolditalic-webfont.svg']}#titillium_webbold_italic") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'titillium_websemibold_italic';
+    src: url("#{resource['fonts/titilliumweb-semibolditalic-webfont.eot']}");
+    src: url("#{resource['fonts/titilliumweb-semibolditalic-webfont.eot']}#iefix") format('embedded-opentype'),
+        url("#{resource['fonts/titilliumweb-semibolditalic-webfont.woff']}") format('woff'),
+        url("#{resource['fonts/titilliumweb-semibolditalic-webfont.ttf']}") format('truetype'),
+        url("#{resource['fonts/titilliumweb-semibolditalic-webfont.svg']}#titillium_websemibold_italic") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/* Component containers
+----------------------------------*/
+.ui-widget {
+    /*-moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;*/
+    font-family: 'titillium_webregular' !important;
+}
+.ui-widget .ui-widget {
+    /* font-size: 1em; */
+    /*-moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;*/
+    font-family: 'titillium_webregular' !important;
+}
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+    /* font-size: 1em; */
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.ui-widget-content {
+    /*border: 1px solid #72b42d;*/
+    /*background: #285c00 url("images/ui-bg_inset-soft_10_285c00_1x100.png") 50% bottom repeat-x;*/
+    /*color: #ffffff;*/
+}
+.ui-widget-content a {
+    color: #ffffff;
+}
+.ui-widget-header {
+    /*border: 1px solid #3f7506;*/
+    /*background: #3a8104 url("images/ui-bg_highlight-soft_33_3a8104_1x100.png") 50% 50% repeat-x;*/
+    color: #ffffff;
+    font-weight: bold;
+}
+.ui-widget-header a {
+    color: #ffffff;
+}
+
+
 /*Style For UI Fieldset------------------------------------------------------------------------------------- */
 
 .ui-fieldset{border:solid 1px #d1d3d4; background-color: #FBFCFD;}
