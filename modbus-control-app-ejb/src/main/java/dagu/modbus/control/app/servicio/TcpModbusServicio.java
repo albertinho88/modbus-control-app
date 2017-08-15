@@ -158,7 +158,7 @@ public class TcpModbusServicio implements Serializable {
         getTrans().execute();
         res = (ReadMultipleRegistersResponse) getTrans().getResponse();
         
-        return new ;
+        return null;
     }
     private RespuestaModbusTcp readInputRegistersRequest(PeticionModbusTcp peticion) throws Exception {
         ReadInputRegistersRequest req = null;
