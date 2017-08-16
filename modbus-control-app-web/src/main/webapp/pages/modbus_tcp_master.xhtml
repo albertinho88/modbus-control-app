@@ -52,14 +52,31 @@
                     <p:message for="iptNumBits"/>
                     
                 </h:panelGrid>
-
-                <p:commandButton title="Enviar" actionListener="#{monitorearModbusTcpControlador.enviarTrama()}" update="@form #{p:component('msg')} #{p:component('iptResp')}" />
+                
+                <p:spacer />
+                       
+                <div>                                                                                                          
+                    
+                    <pe:timer  
+                        widgetVar="timer"  
+                        timeout="5"                           
+                        listener="#{monitorearModbusTcpControlador.iniciarComunicacion()}"  
+                        singleRun="false"
+                        forward="true"
+                        autoStart="false"
+                        update="@form #{p:component('msg')} #{p:component('iptResp')}" />                      
+                                           
+                    <p:commandButton value="Iniciar" onclick="PF('timer').start()" type="button"/> 
+                    <p:commandButton value="Detener" actionListener="#{monitorearModbusTcpControlador.desconectar()}" onclick="PF('timer').stop()" type="button"/>                      
+                    
+                </div>
+                
             </p:fieldset>
             
             <p:spacer />
             
             <p:fieldset legend="TCP Response">
-                <p:inputTextarea id="iptResp" value="#{monitorearModbusTcpControlador.bb.respuesta}" />                                
+                <p:inputTextarea id="iptResp" value="#{monitorearModbusTcpControlador.bb.respuesta}" style="width: 95%;" rows="10" />                                
                 
             </p:fieldset>
         </h:form>        

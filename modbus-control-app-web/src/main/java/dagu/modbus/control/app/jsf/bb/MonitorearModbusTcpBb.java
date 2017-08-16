@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.enterprise.context.Dependent;
 import lombok.Getter;
 import lombok.Setter;
+import net.wimpi.modbus.facade.ModbusTCPMaster;
 
 /**
  *
@@ -43,6 +44,10 @@ public class MonitorearModbusTcpBb implements Serializable {
     @Setter
     private String respuesta;
     
+    @Getter
+    @Setter
+    private ModbusTCPMaster modbusTcpMaster;
+    
     public void inicializar() {
         setDireccionIp("127.0.0.1");
         setPuerto("502");
@@ -50,5 +55,6 @@ public class MonitorearModbusTcpBb implements Serializable {
         setReferencia(null);
         setConteoBits(null);
         setRespuesta(null);
+        setModbusTcpMaster(null);
     }
 }

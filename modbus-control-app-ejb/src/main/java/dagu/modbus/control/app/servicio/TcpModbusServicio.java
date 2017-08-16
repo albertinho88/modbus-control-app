@@ -39,7 +39,9 @@ import net.wimpi.modbus.procimg.SimpleRegister;
 @Stateless
 public class TcpModbusServicio implements Serializable {
 
-    private static final long serialVersionUID = -3390713346240429910L;                   
+    private static final long serialVersionUID = -3390713346240429910L;  
+    
+    
     
     public RespuestaModbusTcp ejecutarFuncion(PeticionModbusTcp peticion, TCPMasterConnection con) throws Exception {
         RespuestaModbusTcp resp = null;               
